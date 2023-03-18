@@ -26,8 +26,6 @@ Quarto enables you to weave together content and executable code into a finished
 ```{r}
 #| echo: false
 library(grid)
-# .body <- convertUnit(unit(900, "bigpts"), "in", valueOnly = TRUE) 
-# .margin <- convertUnit(unit(300, "bigpts"), "in", valueOnly = TRUE) 
 .body <- 900 / 96
 .margin <- 300 / 96
 .px2pt <- 72/96
