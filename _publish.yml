@@ -1,0 +1,4 @@
+- source: index.qmd
+  quarto-pub:
+    - id: 81c3ad6d-0adc-4676-8aa9-d0201fb04a01
+      url: 'https://baptiste.quarto.pub/testing-custom-width-b159'

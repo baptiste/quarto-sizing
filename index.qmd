@@ -2,7 +2,7 @@
 title: "testing custom width"
 format:
   html: 
-    fontsize: "21px"
+    fontsize: "1.3rem"
     mainfont: "Roboto"
     include-in-header:
       text: |
@@ -26,8 +26,11 @@ Quarto enables you to weave together content and executable code into a finished
 ```{r}
 #| echo: false
 library(grid)
-.body <- convertUnit(unit(900, "bigpts"), "in", valueOnly = TRUE) 
-.margin <- convertUnit(unit(300, "bigpts"), "in", valueOnly = TRUE) 
+# .body <- convertUnit(unit(900, "bigpts"), "in", valueOnly = TRUE) 
+# .margin <- convertUnit(unit(300, "bigpts"), "in", valueOnly = TRUE) 
+.body <- 900 / 96
+.margin <- 300 / 96
+.px2pt <- 72/96
 ```
 
 ```{r figure, fig.width=.body, fig.height=6}
@@ -37,15 +40,16 @@ library(grid)
 library(ggplot2)
 library(gridExtra)
 d <- data.frame(x=rep(1:10,5), y = rnorm(50), f = gl(5,10, labels = sprintf("this is column %s", 1:5)))
-g <- grobTree(rectGrob(width=unit(900, "pt"), height=unit(1,"cm"), gp=gpar(col='red', lty=3)),
-              segmentsGrob(x0 = unit(400,"pt"), x1 = 0, y0=0.5,y1=0.5, arrow = arrow()),
-              segmentsGrob(x0 = unit(500,"pt"), x1 = 1, y0=0.5, y1=0.5, arrow = arrow()),
-              textGrob("900px", gp=gpar(fontsize=21, family='Roboto')))
+g <- grobTree(rectGrob(width=unit(900*.px2pt, "pt"), 
+                       height=unit(1,"cm"), gp=gpar(col='red', lty=3)),
+              segmentsGrob(x0 = unit(400*.px2pt,"pt"), x1 = 0, y0=0.5,y1=0.5, arrow = arrow()),
+              segmentsGrob(x0 = unit(500*.px2pt,"pt"), x1 = 1, y0=0.5, y1=0.5, arrow = arrow()),
+              textGrob("900px", gp=gpar(fontsize=21*.px2pt, family='Roboto')))
 p <- ggplot(d, aes(x, y)) +
   facet_grid(.~f) +
   labs(title = "This plot has similar fonts",
        caption = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut") +
-  theme_grey(base_size = 21, base_family = "Roboto") +
+  theme_grey(base_size = 21*.px2pt, base_family = "Roboto") +
   theme(plot.background = element_rect(fill=blues9[2], colour = 'red', linewidth = 2, linetype = 3),
         plot.title = element_text(size=rel(1), face = "bold"),
         plot.caption = element_text(size=rel(1), face = "plain", colour = "grey50"))
@@ -59,17 +63,17 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 #| column: margin
 #| fig-cap: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 d <- data.frame(x=rep(1:10,5), y = rnorm(50))
-g <- grobTree(rectGrob(width=unit(300, "pt"), height=unit(1,"cm"), gp=gpar(col='red', lty=3)),
-              segmentsGrob(x0 = unit(100,"pt"), x1 = 0, y0=0.5,y1=0.5, arrow = arrow()),
-              segmentsGrob(x0 = unit(200,"pt"), x1 = 1, y0=0.5, y1=0.5, arrow = arrow()),
-              textGrob("300px",gp=gpar(fontsize=21, family='Roboto')))
+g <- grobTree(rectGrob(width=unit(300*.px2pt, "pt"), height=unit(1,"cm"), gp=gpar(col='red', lty=3)),
+              segmentsGrob(x0 = unit(100*.px2pt,"pt"), x1 = 0, y0=0.5,y1=0.5, arrow = arrow()),
+              segmentsGrob(x0 = unit(200*.px2pt,"pt"), x1 = 1, y0=0.5, y1=0.5, arrow = arrow()),
+              textGrob("300px",gp=gpar(fontsize=21*.px2pt, family='Roboto')))
 p <- ggplot(d, aes(x, y)) +
   labs(title = "This plot has similar fonts",
        caption = "Consequat id porta") +
-  theme_grey(base_size = 21, base_family = "Roboto") +
+  theme_grey(base_size = 21*.px2pt, base_family = "Roboto") +
   theme(plot.background = element_rect(fill=blues9[2], colour = 'red', linewidth = 2, linetype = 3),
         plot.title = element_text(size=rel(1), face = "bold"),
-        plot.caption = element_text(size=rel(1), face = "italic"))
+        plot.caption = element_text(size=rel(1), face = "plain"))
 grid.arrange(p,g, heights = c(5,1))
 ```
 
