@@ -1,0 +1,79 @@
+---
+title: "testing custom width"
+format:
+  html: 
+    fontsize: "21px"
+    mainfont: "Roboto"
+    include-in-header:
+      text: |
+         <style>
+           body {
+              text-align: justify !important;
+              }
+           figure > figcaption {
+              text-align: left;
+              }
+          </style>
+    grid:
+      body-width: 900px
+      margin-width: 300px
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+```{r}
+#| echo: false
+library(grid)
+.body <- convertUnit(unit(900, "bigpts"), "in", valueOnly = TRUE) 
+.margin <- convertUnit(unit(300, "bigpts"), "in", valueOnly = TRUE) 
+```
+
+```{r figure, fig.width=.body, fig.height=6}
+#| echo: false
+#| column: body
+#| fig-cap: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+library(ggplot2)
+library(gridExtra)
+d <- data.frame(x=rep(1:10,5), y = rnorm(50), f = gl(5,10, labels = sprintf("this is column %s", 1:5)))
+g <- grobTree(rectGrob(width=unit(900, "pt"), height=unit(1,"cm"), gp=gpar(col='red', lty=3)),
+              segmentsGrob(x0 = unit(400,"pt"), x1 = 0, y0=0.5,y1=0.5, arrow = arrow()),
+              segmentsGrob(x0 = unit(500,"pt"), x1 = 1, y0=0.5, y1=0.5, arrow = arrow()),
+              textGrob("900px", gp=gpar(fontsize=21, family='Roboto')))
+p <- ggplot(d, aes(x, y)) +
+  facet_grid(.~f) +
+  labs(title = "This plot has similar fonts",
+       caption = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut") +
+  theme_grey(base_size = 21, base_family = "Roboto") +
+  theme(plot.background = element_rect(fill=blues9[2], colour = 'red', linewidth = 2, linetype = 3),
+        plot.title = element_text(size=rel(1), face = "bold"),
+        plot.caption = element_text(size=rel(1), face = "plain", colour = "grey50"))
+grid.arrange(p,g, heights = c(5,1))
+```
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dolor sed viverra ipsum nunc aliquet bibendum enim facilisis gravida. Nec sagittis aliquam malesuada bibendum arcu vitae. Hac habitasse platea dictumst vestibulum. Quis commodo odio aenean sed adipiscing diam donec adipiscing. Vel facilisis volutpat est velit egestas. Pellentesque elit eget gravida cum sociis natoque penatibus et magnis. Vestibulum lectus mauris ultrices eros in cursus. Cursus metus aliquam eleifend mi in nulla posuere sollicitudin. Eleifend mi in nulla posuere. Lacus vestibulum sed arcu non odio euismod. Euismod nisi porta lorem mollis aliquam. Sagittis orci a scelerisque purus semper eget duis at. Scelerisque varius morbi enim nunc faucibus a pellentesque. Volutpat consequat mauris nunc congue nisi vitae suscipit. Amet consectetur adipiscing elit duis tristique sollicitudin nibh. Pellentesque adipiscing commodo elit at imperdiet dui accumsan. Sed blandit libero volutpat sed. Et magnis dis parturient montes nascetur ridiculus mus mauris vitae.
+
+```{r mar, fig.width=.margin, fig.height=4}
+#| echo: false
+#| column: margin
+#| fig-cap: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+d <- data.frame(x=rep(1:10,5), y = rnorm(50))
+g <- grobTree(rectGrob(width=unit(300, "pt"), height=unit(1,"cm"), gp=gpar(col='red', lty=3)),
+              segmentsGrob(x0 = unit(100,"pt"), x1 = 0, y0=0.5,y1=0.5, arrow = arrow()),
+              segmentsGrob(x0 = unit(200,"pt"), x1 = 1, y0=0.5, y1=0.5, arrow = arrow()),
+              textGrob("300px",gp=gpar(fontsize=21, family='Roboto')))
+p <- ggplot(d, aes(x, y)) +
+  labs(title = "This plot has similar fonts",
+       caption = "Consequat id porta") +
+  theme_grey(base_size = 21, base_family = "Roboto") +
+  theme(plot.background = element_rect(fill=blues9[2], colour = 'red', linewidth = 2, linetype = 3),
+        plot.title = element_text(size=rel(1), face = "bold"),
+        plot.caption = element_text(size=rel(1), face = "italic"))
+grid.arrange(p,g, heights = c(5,1))
+```
+
+Consequat id porta nibh venenatis cras sed felis eget. Urna molestie at elementum eu facilisis sed odio morbi quis. Risus quis varius quam quisque id diam vel quam elementum. Sed augue lacus viverra vitae congue eu consequat ac felis. Duis at consectetur lorem donec massa sapien faucibus. In nisl nisi scelerisque eu ultrices vitae auctor eu. Commodo nulla facilisi nullam vehicula ipsum a arcu cursus. Vulputate ut pharetra sit amet. Erat pellentesque adipiscing commodo elit at imperdiet dui accumsan sit. Laoreet sit amet cursus sit amet. Sed adipiscing diam donec adipiscing tristique risus nec feugiat.
+
+Etiam non quam lacus suspendisse faucibus interdum posuere lorem ipsum. Aliquam vestibulum morbi blandit cursus risus at ultrices mi. Porta non pulvinar neque laoreet suspendisse interdum consectetur libero. Ut lectus arcu bibendum at varius vel pharetra. Nulla aliquet enim tortor at auctor urna. Tellus in hac habitasse platea dictumst vestibulum rhoncus. Id faucibus nisl tincidunt eget nullam non nisi est. Lorem sed risus ultricies tristique. Nullam vehicula ipsum a arcu cursus vitae congue. Lacus luctus accumsan tortor posuere ac. Sodales neque sodales ut etiam sit amet. Et netus et malesuada fames. Duis tristique sollicitudin nibh sit amet commodo nulla facilisi nullam. Condimentum lacinia quis vel eros.
+
